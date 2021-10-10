@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main(){
     // imprime cabeçalho do jogo
@@ -6,30 +8,37 @@ int main(){
     printf("* Bem vindo ao nosso jogo de adivinhação *\n");
     printf("******************************************\n");
 
-    int numerosecreto = 42;
+    // recupera o número de segundos a partir de 01/01/1970 EPOCH Time
+    int segundos = time(0);
+    // muda a semente do rand - s do srand é de seed
+    srand(segundos);
+
+    int numerogrande = rand();
+    int numerosecreto = numerogrande % 100;
 
     int chute;
-    int ganhou = 0;
-    int tentativas = 0;
+    int tentativas = 1;
+    double pontos = 1000;
 
-    while (ganhou == 0){
-        printf("Tentativa %d\n", tentativas + 1);
+    int acertou = 0;
+    int numerodetentativas = 5;
+
+    for (int i = 1; i <= numerodetentativas; i++){
+        printf("Tentativa %d de %d\n", tentativas, numerodetentativas);
         printf("Qual é o seu chute? ");
         scanf("%d", &chute);
         
         if(chute < 0){
             printf("Você não pode chutar números negativos!\n");
-
+            i--;
             continue;
         }
 
-        int acertou = (chute == numerosecreto);
+        acertou = (chute == numerosecreto);
         int maior = (chute > numerosecreto);
 
         if(acertou){
-            printf("Parabéns! Você acertou!\n");
-            printf("Jogue de novo! Você é um bom jogador!\n");
-            ganhou = 1;
+            break;
         } else if (maior){
             printf("Seu chute foi maior que o número secreto!\n");
         } else {
@@ -37,8 +46,18 @@ int main(){
         }
 
         tentativas++;
+
+        double pontosperdidos = abs(chute - numerosecreto) / 2.0;
+        pontos = pontos - pontosperdidos;
     }
 
     printf("Fim de jogo!\n");
-    printf("Você acertou em %d tentativas!\n", tentativas);
+
+    if(acertou){
+        printf("Você ganhou!\n");
+        printf("Você acertou em %d tentativas!\n", tentativas);
+        printf("Total de pontos: %.2f\n", pontos);
+    } else {
+        printf("Você perdeu! O número secreto era %d! Tente de novo!\n", numerosecreto);
+    }
 }
