@@ -23,6 +23,7 @@ int main(){
         // começar nosso jogo
         char chute;
         printf("Tentativa %d - Informe uma letra: ", tentativa);
+        
         scanf("%c", &chute);
 
         for(int i = 0; i < strlen(palavrasecreta); i++) {
