@@ -7,31 +7,36 @@ int main(){
     // joga o conteúdo da string no array de char
     sprintf(palavrasecreta, "MELANCIA");
 
-    /*
-    printf("%s\n", palavrasecreta);
-
-    // para tratar o array de char como uma string, ao final do conteúdo ele coloca o "\0" indicando que não tem mais conteúdo
-    printf("O char da posição 7 é %c - é o fim da string? %d\n", palavrasecreta[7], palavrasecreta[7] == 0);
-    printf("O char da posição 8 é %c - é o fim da string? %d\n", palavrasecreta[8], palavrasecreta[8] == 0);
-    */
-
     int acertou = 0;
     int enforcou = 0;
-    int tentativa = 1;
 
+    char chutes[26];
+    int tentativas = 0;
     do {
-        // começar nosso jogo
-        char chute;
-        printf("Tentativa %d - Informe uma letra: ", tentativa);
-        
-        scanf("%c", &chute);
-
         for(int i = 0; i < strlen(palavrasecreta); i++) {
-            if (palavrasecreta[i] == chute){
-                printf("A posição %d tem essa letra!\n", i);
+            int achou = 0;
+            for (int j = 0; j < tentativas; j++){
+                if(chutes[j] == palavrasecreta[i]) {
+                    achou = 1;
+                    break;
+                }
+            }
+            if (achou) {
+                printf("%c ", palavrasecreta[i]);
+            } else {
+                printf("_ ");
             }
         }
-        tentativa++;
-    } while(!acertou && !enforcou);
+        printf("\n");
+
+        char chute;
+
+        printf("Qual é a letra? ");
+        scanf(" %c", &chute);  // no %c precisa do espaço antes para desconsiderar o "Enter" depois da letra
+        
+        chutes[tentativas] = chute;
+        tentativas++;
+
+    } while (!acertou && !enforcou);
 
 }
