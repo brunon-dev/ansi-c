@@ -6,7 +6,14 @@ void potencia(int a, int b) {
         resultado = resultado * a;
     }
 
-    printf("O resultado é %d", resultado);
+    printf("O resultado é %d\n", resultado);
+}
+
+void potencia2(int* resultado, int a, int b) {
+    *resultado = 1;
+    for(int i = 0; i < b; i++) {
+        (*resultado) = (*resultado) * a;
+    }
 }
 
 void main() {
@@ -25,4 +32,9 @@ void main() {
     printf("Vamos calcular %d elevado a %d:\n\n", primeironumero, segundonumero);
 
     potencia(primeironumero, segundonumero);
+
+    // usando ponteiro
+    int resultado;
+    potencia2(&resultado, primeironumero, segundonumero);
+    printf("O segundo resultado é %d\n", resultado);
 }
