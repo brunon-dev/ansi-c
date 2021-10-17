@@ -3,7 +3,7 @@
 
 char palavrasecreta[20];
 char chutes[26];
-int tentativas = 0;
+int chutesdados = 0;
 
 void abertura(){
     printf("*********************\n");
@@ -17,13 +17,13 @@ void chuta() {
     printf("Qual é a letra? ");
     scanf(" %c", &chute);  // no %c precisa do espaço antes para desconsiderar o "Enter" depois da letra
 
-    chutes[tentativas] = chute;
-    tentativas++;
+    chutes[chutesdados] = chute;
+    chutesdados++;
 }
 
 int achouchute(char letra) {
     int achou = 0;
-    for (int j = 0; j < tentativas; j++){
+    for (int j = 0; j < chutesdados; j++){
         if(chutes[j] == letra) {
             achou = 1;
             break;
@@ -50,10 +50,19 @@ void escolhepalavra(){
     sprintf(palavrasecreta, "MELANCIA");
 }
 
+int acertou() {
+    for(int i = 0; i < strlen(palavrasecreta); i++){
+        if(!achouchute(palavrasecreta[i])){
+            return 0;
+        }
+    }
+    return 1;
+}
+
 int enforcou() {
     int erros = 0;
 
-    for(int i = 0; i < tentativas; i++) {
+    for(int i = 0; i < chutesdados; i++) {
         int existe = 0;
 
         for(int j = 0; j < strlen(palavrasecreta); j++) {
@@ -69,8 +78,6 @@ int enforcou() {
 }
 
 void main(){
-    int acertou = 0;
-    
     escolhepalavra();
 
     abertura();
@@ -80,6 +87,6 @@ void main(){
 
         chuta();
 
-    } while (!acertou && !enforcou());
+    } while (!acertou() && !enforcou());
 
 }
