@@ -37,11 +37,50 @@ void desenhaforca(){
     printf("\n");
 }
 
+void adicionapalavra(){
+    char queradicionar;
+
+    printf("Você deseja adiconar uma nova palavra ao jogo? (S/N) ");
+    scanf(" %c", &queradicionar);
+
+    if(queradicionar == 'S') {
+        char novapalavra[20];
+
+        printf("Qual a nova palavra? ");
+        scanf("%s", novapalavra);
+
+        FILE* f;
+        // abre com permissão de leitura E escrita ("r+")
+        f = fopen("palavras.txt", "r+");
+
+        if (f == 0) {
+            printf("Desculpe, banco de dados não disponível!\n\n");
+            exit(1);
+        }
+
+        // lê a quantidade de palavras na primeira linha do arquivo
+        int qtdepalavras;
+        fscanf(f, "%d", &qtdepalavras);
+        qtdepalavras++;
+
+        // posiciona novamente na primeira linha do arquivo e sobreescreve a quantidade de palavras adicionando 1
+        fseek(f, 0, SEEK_SET);
+        fprintf(f, "%d", qtdepalavras);
+
+        // posiciona na última linha do arquivo e escreve a nova palavra
+        fseek(f, 0, SEEK_END);
+        fprintf(f, "\n%s", novapalavra);
+
+        fclose(f);
+    }
+}
+
 void escolhepalavra(){
     // joga o conteúdo da string no array de char
     //sprintf(palavrasecreta, "MELANCIA");
 
     FILE* f;
+    // abre apenas com permissão de leitura ("r")
     f = fopen("palavras.txt", "r");
 
     if (f == 0) {
@@ -111,5 +150,7 @@ void main(){
         chuta();
 
     } while (!acertou() && !enforcou());
+
+    adicionapalavra();
 
 }
