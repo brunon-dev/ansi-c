@@ -1,12 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "fogefoge.h"
 
-int main() {
-    // matriz de 5 x 10
-    // declara com "10+1" porque toda string tem um 0 no último caracter
-    // como vamos ler a string do arquivo de mapa, precisamos considerar isso
-    char mapa[5][10+1];
+char** mapa;
+int linhas;
+int colunas;
 
+void liberamapa() {
+    // liberando a memória
+    for(int i = 0; i < linhas; i++) {
+        free(mapa[i]);
+    }
+    free(mapa);
+}
+
+void alocamapa() {
+    mapa = malloc(sizeof(char*) * linhas);
+    for(int i = 0; i < linhas; i++) {
+        // no caso de colunas considera o "+1" porque toda string tem a última
+        // posição com valor "0" para identificar o fim da string
+        mapa[i] = malloc(sizeof(char) * (colunas+1));
+    }
+}
+
+void lemapa() {
     FILE* f;
     f = fopen("mapa.txt", "r");
     if(f == 0) {
@@ -14,13 +31,24 @@ int main() {
         exit(1);
     }
 
-    for(int i = 0; i < 5; i++) {
+    fscanf(f, "%d %d", &linhas, &colunas);
+
+    alocamapa();
+
+    for(int i = 0; i < linhas; i++) {
         fscanf(f, "%s", mapa[i]);
     }
+    
+    fclose(f);
+}
 
-    for(int i = 0; i < 5; i++) {
+int main() {
+    
+    lemapa();
+
+    for(int i = 0; i < linhas; i++) {
         printf("%s\n", mapa[i]);
     }
 
-    fclose(f);
+    liberamapa();
 }
