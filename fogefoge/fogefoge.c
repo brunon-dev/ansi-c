@@ -1,104 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fogefoge.h"
+#include "mapa.h"
 
-struct mapa m;
-
-void liberamapa() {
-    // liberando a memória
-    for(int i = 0; i < m.linhas; i++) {
-        free(m.matriz[i]);
-    }
-    free(m.matriz);
-}
-
-void alocamapa() {
-    m.matriz = malloc(sizeof(char*) * m.linhas);
-    for(int i = 0; i < m.linhas; i++) {
-        // no caso de colunas considera o "+1" porque toda string tem a última
-        // posição com valor "0" para identificar o fim da string
-        m.matriz[i] = malloc(sizeof(char) * (m.colunas+1));
-    }
-}
-
-void lemapa() {
-    FILE* f;
-    f = fopen("mapa.txt", "r");
-    if(f == 0) {
-        printf("Erro na leitura do mapa!\n");
-        exit(1);
-    }
-
-    fscanf(f, "%d %d", &(m.linhas), &(m.colunas));
-
-    alocamapa();
-
-    for(int i = 0; i < m.linhas; i++) {
-        fscanf(f, "%s", m.matriz[i]);
-    }
-    
-    fclose(f);
-}
-
-void imprimemapa() {
-    for(int i = 0; i < m.linhas; i++) {
-        printf("%s\n", m.matriz[i]);
-    }
-}
+MAPA m;
+POSICAO heroi;
 
 int acabou() {
     return 0;
 }
 
 void move(char direcao) {
-    int x;
-    int y;
-
-    // acha a posição do foge foge
-    for(int i = 0; i < m.linhas; i++){
-        for(int j = 0; j < m.colunas; j++){
-            if(m.matriz[i][j] == '@') {
-                x = i;
-                y = j;
-                break;
-            }
-        }
-    }
+    m.matriz[heroi.x][heroi.y] = '.';
 
     switch (direcao)
     {
         case 'a':
             // move para esquerda
-            m.matriz[x][y-1] = '@';
+            heroi.y--;
             break;
         case 'w':
             // move para cima
-            m.matriz[x-1][y] = '@';
+            heroi.x--;
             break;
         case 's':
             // move para baixo
-            m.matriz[x+1][y] = '@';
+            heroi.x++;
             break;
         case 'd':
             // move para direita
-            m.matriz[x][y+1] = '@';
+            heroi.y++;
             break;
     }
 
-    m.matriz[x][y] = '.';
+    m.matriz[heroi.x][heroi.y] = '@';
 }
 
 int main() {
     
-    lemapa();
+    lemapa(&m);
+    encontranomapa(&m, &heroi, '@');
 
     do {
-        imprimemapa();
+        imprimemapa(&m);
 
         char comando;
         scanf(" %c", &comando);
         move(comando);
     } while(!acabou());
 
-    liberamapa();
+    liberamapa(&m);
 }
