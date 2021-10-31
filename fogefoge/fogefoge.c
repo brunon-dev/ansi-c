@@ -11,29 +11,48 @@ int acabou() {
 }
 
 void move(char direcao) {
-    m.matriz[heroi.x][heroi.y] = '.';
+    
+    if(direcao != 'a' &&
+        direcao != 'w' &&
+        direcao != 's' &&
+        direcao != 'd') {
+            return;
+    }
+    
+    int proximox = heroi.x;
+    int proximoy = heroi.y;
 
     switch (direcao)
     {
         case 'a':
             // move para esquerda
-            heroi.y--;
+            proximoy--;
             break;
         case 'w':
             // move para cima
-            heroi.x--;
+            proximox--;
             break;
         case 's':
             // move para baixo
-            heroi.x++;
+            proximox++;
             break;
         case 'd':
             // move para direita
-            heroi.y++;
+            proximoy++;
             break;
     }
 
-    m.matriz[heroi.x][heroi.y] = '@';
+    if(proximox >= m.linhas)
+        return;
+    if(proximoy >= m.colunas)
+        return;
+    if(m.matriz[proximox][proximoy] != '.')
+        return;
+
+    m.matriz[proximox][proximoy] = '@';
+    m.matriz[heroi.x][heroi.y] = '.';
+    heroi.x = proximox;
+    heroi.y = proximoy;
 }
 
 int main() {
