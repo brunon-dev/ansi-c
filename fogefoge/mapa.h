@@ -1,3 +1,6 @@
+#define HEROI '@'
+#define VAZIO '.'
+
 struct mapa {
     char** matriz;
     int linhas;
@@ -13,6 +16,9 @@ struct posicao {
 
 typedef struct posicao POSICAO;
 
+void andanomapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino);
+int ehvalida(MAPA* m, int x, int y);
+int ehvazia(MAPA* m, int x, int y);
 void encontranomapa(MAPA* m, POSICAO* p, char c);
 void liberamapa(MAPA* m);
 void lemapa(MAPA* m);
