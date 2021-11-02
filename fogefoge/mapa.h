@@ -3,6 +3,7 @@
 #define FANTASMA 'F'
 #define PAREDE_VERTICAL '|'
 #define PAREDE_HORIZONTAL '-'
+#define PILULA 'P'
 
 struct mapa {
     char** matriz;

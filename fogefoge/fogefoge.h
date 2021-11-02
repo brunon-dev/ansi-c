@@ -2,9 +2,11 @@
 #define BAIXO 's'
 #define DIREITA 'd'
 #define ESQUERDA 'a'
+#define BOMBA 'b'
 
 int praondefantasmavai(int xatual, int yatual, int* xdestino, int* ydestino);
 void fantasmas();
 int acabou();
 int ehdirecao(char direcao);
 void move(char direcao);
+void explodepilula();
