@@ -3,6 +3,7 @@
 #define DIREITA 'd'
 #define ESQUERDA 'a'
 
+int praondefantasmavai(int xatual, int yatual, int* xdestino, int* ydestino);
 void fantasmas();
 int acabou();
 int ehdirecao(char direcao);
