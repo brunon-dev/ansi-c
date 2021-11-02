@@ -108,12 +108,27 @@ void move(char direcao) {
 }
 
 void explodepilula() {
-    for(int i = 1; i <= 3; i++) {
-        if(ehvalida(&m, heroi.x, heroi.y + i) &&
-            !ehparede(&m, heroi.x, heroi.y + i)) {
-            m.matriz[heroi.x][heroi.y + i] = VAZIO;
-        }
-    }
+    if(!tempilula) return;
+
+    executaexplosao(heroi.x, heroi.y, 0, 1, 3);
+    executaexplosao(heroi.x, heroi.y, 0, -1, 3);
+    executaexplosao(heroi.x, heroi.y, 1, 0, 3);
+    executaexplosao(heroi.x, heroi.y, -1, 0, 3);
+
+    tempilula = 0;
+}
+
+void executaexplosao(int x, int y, int somax, int somay, int qtd) {
+    if(qtd == 0) return;
+
+    int novox = x + somax;
+    int novoy = y + somay;
+
+    if(!ehvalida(&m, novox, novoy)) return;
+    if(ehparede(&m, novox, novoy)) return;
+
+    m.matriz[novox][novoy] = VAZIO;
+    executaexplosao(novox, novoy, somax, somay, qtd - 1);
 }
 
 int main() {

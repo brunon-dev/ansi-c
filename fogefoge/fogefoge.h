@@ -10,3 +10,4 @@ int acabou();
 int ehdirecao(char direcao);
 void move(char direcao);
 void explodepilula();
+void executaexplosao(int x, int y, int somax, int somay, int qtd);
