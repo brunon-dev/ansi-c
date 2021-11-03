@@ -1,3 +1,6 @@
+#ifndef _MAPA_H_
+#define _MAPA_H_
+
 #define HEROI '@'
 #define VAZIO '.'
 #define FANTASMA 'F'
@@ -31,4 +34,5 @@ int encontranomapa(MAPA* m, POSICAO* p, char c);
 void liberamapa(MAPA* m);
 void lemapa(MAPA* m);
 void alocamapa(MAPA* m);
-void imprimemapa(MAPA* m);
+
+#endif
